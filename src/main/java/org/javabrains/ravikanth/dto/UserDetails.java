@@ -4,16 +4,20 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Generated;
+
 @Entity(name="USER_DETAILS")
 public class UserDetails {
 	
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="USER_ID")
 	private int userId;
 	

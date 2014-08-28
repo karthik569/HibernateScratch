@@ -19,17 +19,24 @@ public class HibernateTest {
 	
 		//Create the model object to be saved
 		UserDetails userDetails=new UserDetails();
-		userDetails.setUserId(1);
 		userDetails.setUserName("Ravikanth");
 		userDetails.setAddress("754 The Alameda");
 		userDetails.setJoinDate(new Date());
 		userDetails.setDescription("Some sample Description.");
+		
+		
+		UserDetails userDetails2=new UserDetails();
+		userDetails2.setUserName("Ravikanth2");
+		userDetails2.setAddress("754 The Alameda2");
+		userDetails2.setJoinDate(new Date());
+		userDetails2.setDescription("Some sample Description 2.");
 		
 		//begin the transaction
 		session.beginTransaction();
 		
 		//save the object
 		session.save(userDetails);
+		session.save(userDetails2);
 
 		//commit the transaction
 		session.getTransaction().commit();
