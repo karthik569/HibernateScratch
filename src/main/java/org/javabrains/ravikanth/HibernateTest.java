@@ -1,5 +1,7 @@
 package org.javabrains.ravikanth;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,6 +21,9 @@ public class HibernateTest {
 		UserDetails userDetails=new UserDetails();
 		userDetails.setUserId(1);
 		userDetails.setUserName("Ravikanth");
+		userDetails.setAddress("754 The Alameda");
+		userDetails.setJoinDate(new Date());
+		userDetails.setDescription("Some sample Description.");
 		
 		//begin the transaction
 		session.beginTransaction();
