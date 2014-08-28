@@ -36,6 +36,21 @@ public class HibernateTest {
 		
 		//release the resources;
 		session.close();
+		
+		
+		session=sf.openSession();
+		
+		
+		//retrieve the record using primary key
+		UserDetails uD=(UserDetails)session.get(UserDetails.class, 1);
+		
+		System.out.println(uD.getAddress());
+		System.out.println(uD.getDescription());
+		System.out.println(uD.getUserId());
+		System.out.println(uD.getUserName());
+		System.out.println(uD.getJoinDate());
+
+		session.close();
 		sf.close();
 		
 	}
