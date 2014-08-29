@@ -26,24 +26,28 @@ public class UserDetails {
 	
 	@Temporal(TemporalType.DATE)
 	private java.util.Date joinDate;
-	private String address;
 	@Lob
 	private String description;
+		
+	private Address address;
 	
 	
 	
+	
+	
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 	public java.util.Date getJoinDate() {
 		return joinDate;
 	}
 	public void setJoinDate(java.util.Date date) {
 		this.joinDate = date;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	
 	public String getDescription() {
 		return description;
 	}
