@@ -1,10 +1,13 @@
 package org.javabrains.ravikanth.dto;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -38,40 +41,15 @@ public class UserDetails {
 	@Lob
 	private String description;
 		
-	//Address object(home Address)
-	@Embedded
-	@AttributeOverrides(
-			{@AttributeOverride(name="street", column=@Column(name="HOME_STREET")),
-			 @AttributeOverride(name="city", column=@Column(name="HOME_CITY")),
-			 @AttributeOverride(name="state" , column=@Column(name="HOME_STATE")),
-			 @AttributeOverride(name="zipcode", column=@Column(name="HOME_ZIPCODE"))
-			}	
-		)
-	private Address homeAddress;
+	// List of addresses
+	@ElementCollection
+	private Set<Address> addresses=new HashSet<Address>();
 	
-	//Address object(office address)
-	@Embedded
-	@AttributeOverrides(
-		{@AttributeOverride(name="street", column=@Column(name="OFFICE_STREET")),
-		 @AttributeOverride(name="city", column=@Column(name="OFFICE_CITY")),
-		 @AttributeOverride(name="state" , column=@Column(name="OFFICE_STATE")),
-		 @AttributeOverride(name="zipcode", column=@Column(name="OFFICE_ZIPCODE"))
-		}
-	)
-	private Address officeAddress;
-	
-	
-	public Address getHomeAddress() {
-		return homeAddress;
+	public Set<Address> getAddresses() {
+		return addresses;
 	}
-	public void setHomeAddress(Address homeAddress) {
-		this.homeAddress = homeAddress;
-	}
-	public Address getOfficeAddress() {
-		return officeAddress;
-	}
-	public void setOfficeAddress(Address officeAddress) {
-		this.officeAddress = officeAddress;
+	public void setAddresses(Set<Address> addresses) {
+		this.addresses = addresses;
 	}
 	public java.util.Date getJoinDate() {
 		return joinDate;
