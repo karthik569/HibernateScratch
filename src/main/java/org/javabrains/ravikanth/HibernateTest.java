@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.javabrains.ravikanth.dto.Address;
 import org.javabrains.ravikanth.dto.UserDetails;
+import org.javabrains.ravikanth.dto.Vehicle;
 
 public class HibernateTest {
 
@@ -14,50 +15,39 @@ public class HibernateTest {
 		
 		// Build Session factory from the Xml configuration file
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
-	
+		
 		//Open a session
 		Session session=sf.openSession();
 		
-		// begin the transaction
+		//begin the transaction
 		session.getTransaction().begin();
 		
-		//Create model objects
+		//Build the modle object
 		UserDetails userDetails=new UserDetails();
-		userDetails.setUserName("Ravikanth");
+		
 		userDetails.setJoinDate(new Date());
-		userDetails.setDescription("Some Description");
-		Address addr=new Address();
-		addr.setCity("San Jose");
-		addr.setState("California");
-		addr.setStreet("The Alameda");
-		addr.setZipcode("95126");
-		userDetails.getAddresses().add(addr);
-		Address addr2=new Address();
-		addr2.setCity("Buffalo");
-		addr2.setState("New York");
-		addr2.setStreet("Englewood");
-		addr2.setZipcode("14221");
-		userDetails.getAddresses().add(addr2);
+		userDetails.setUserName("Ravikanth");
+		Vehicle vehicle=new Vehicle();
+		vehicle.setVehicleName("Lamborgini");
+		userDetails.setVehicle(vehicle);
 		
-		//save the object into database
+		//save the objects
 		session.save(userDetails);
+		session.save(vehicle);
 		
-		//commit the transaction
+		// commit and and close the session
 		session.getTransaction().commit();
-		
 		session.close();
 		
+		//open the session again and retreive the objects
 		session=sf.openSession();
-		UserDetails ud=(UserDetails)session.get(UserDetails.class, 1);
+		UserDetails uD=(UserDetails)session.get(UserDetails.class, 1);
+		Vehicle v=uD.getVehicle();
 		
-		System.out.println("User Details");
-		System.out.println("Name " + ud.getUserName());
-		System.out.println("id "+ ud.getUserId());
-		session.close();// Test the eager fetching strategy
-		System.out.println("Number of Addresses : "+ud.getAddresses().size());
+		System.out.println("User Name : "+uD.getUserName());
+		System.out.println("Vehicle Name : "+uD.getVehicle().getVehicleName());
 		
-		
-		// Release the resources
+		session.close();
 		sf.close();
 	}
 }
