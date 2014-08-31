@@ -21,31 +21,43 @@ public class HibernateTest {
 		//Create the model object to be saved
 		UserDetails userDetails=new UserDetails();
 		userDetails.setUserName("Ravikanth");
-		Address addr=new Address();
-		addr.setCity("San Jose");
-		addr.setState("CA");
-		addr.setStreet("The Alameda");
-		addr.setZipcode("95126");
-		userDetails.setAddress(addr);
 		userDetails.setJoinDate(new Date());
 		userDetails.setDescription("Some sample Description.");
+		Address homeAddr=new Address();
+		homeAddr.setCity("San Jose");
+		homeAddr.setState("CA");
+		homeAddr.setStreet("The Alameda");
+		homeAddr.setZipcode("95126");
+		userDetails.setHomeAddress(homeAddr);
+		Address officeAddr=new Address();
+		officeAddr.setCity("SUNNY VALE");
+		officeAddr.setState("CA");
+		officeAddr.setStreet("NORTH FIRST STREET");
+		officeAddr.setZipcode("95100");
+		userDetails.setOfficeAddress(officeAddr);
 		
 		
 		UserDetails userDetails2=new UserDetails();
 		userDetails2.setUserName("Ravikanth2");
-		Address addr2=new Address();
-		addr2.setCity("Milipitas");
-		addr2.setState("CA");
-		addr2.setStreet("Montogue");
-		addr2.setZipcode("95132");
-		userDetails2.setAddress(addr2);		
 		userDetails2.setJoinDate(new Date());
 		userDetails2.setDescription("Some sample Description 2.");
+		Address homeAddr2=new Address();
+		homeAddr2.setCity("Buffalo");
+		homeAddr2.setState("NY");
+		homeAddr2.setStreet("Englewood");
+		homeAddr2.setZipcode("14214");
+		userDetails2.setHomeAddress(homeAddr2);
+		Address officeAddr2=new Address();
+		officeAddr2.setCity("Amherst");
+		officeAddr2.setState("NY");
+		officeAddr2.setStreet("Flint Loop");
+		officeAddr2.setZipcode("14221");
+		userDetails2.setOfficeAddress(officeAddr2);
 		
 		//begin the transaction
 		session.beginTransaction();
 		
-		//save the object
+		//save the objects
 		session.save(userDetails);
 		session.save(userDetails2);
 
@@ -53,16 +65,16 @@ public class HibernateTest {
 		session.getTransaction().commit();
 		
 		//release the resources;
-		session.close();
+		session.close();		
 		
-		
+		//open the session to retrieve objects
 		session=sf.openSession();
-		
-		
+			
 		//retrieve the record using primary key
 		UserDetails uD=(UserDetails)session.get(UserDetails.class, 1);
 		
-		System.out.println(uD.getAddress().getCity());
+		System.out.println(uD.getHomeAddress().getCity());
+		System.out.println(uD.getOfficeAddress().getCity());
 		System.out.println(uD.getDescription());
 		System.out.println(uD.getUserId());
 		System.out.println(uD.getUserName());
@@ -71,13 +83,15 @@ public class HibernateTest {
 		
         uD=(UserDetails)session.get(UserDetails.class, 2);
 		
-		System.out.println(uD.getAddress().getCity());
+		System.out.println(uD.getHomeAddress().getCity());
+		System.out.println(uD.getOfficeAddress().getCity());
 		System.out.println(uD.getDescription());
 		System.out.println(uD.getUserId());
 		System.out.println(uD.getUserName());
 		System.out.println(uD.getJoinDate());
 		
 
+		//close the resources
 		session.close();
 		sf.close();
 		
