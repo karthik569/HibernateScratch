@@ -53,11 +53,11 @@ public class HibernateTest {
 		System.out.println("User Details");
 		System.out.println("Name " + ud.getUserName());
 		System.out.println("id "+ ud.getUserId());
+		session.close();// Test the eager fetching strategy
 		System.out.println("Number of Addresses : "+ud.getAddresses().size());
 		
 		
 		// Release the resources
-		session.close();
 		sf.close();
 	}
 }

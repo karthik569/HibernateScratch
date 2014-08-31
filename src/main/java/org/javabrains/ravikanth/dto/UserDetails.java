@@ -13,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class UserDetails {
 	private String description;
 		
 	// List of addresses
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@JoinTable(name="USER_ADDRESS")// configure the name of join table
 	@GenericGenerator(name="hilo-generator", strategy="hilo")// define a primary key generator 
 	@CollectionId(columns = { @Column(name="PK") }, generator = "hilo-generator", type = @Type(type="long"))
