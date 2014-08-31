@@ -1,6 +1,8 @@
 package org.javabrains.ravikanth.dto;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,12 +16,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity(name="USER_DETAILS")
 public class UserDetails {
@@ -43,12 +49,15 @@ public class UserDetails {
 		
 	// List of addresses
 	@ElementCollection
-	private Set<Address> addresses=new HashSet<Address>();
+	@JoinTable(name="USER_ADDRESS")// configure the name of join table
+	@GenericGenerator(name="hilo-generator", strategy="hilo")// define a primary key generator 
+	@CollectionId(columns = { @Column(name="PK") }, generator = "hilo-generator", type = @Type(type="long"))
+	private Collection<Address> addresses=new ArrayList<Address>();
 	
-	public Set<Address> getAddresses() {
+	public Collection<Address> getAddresses() {
 		return addresses;
 	}
-	public void setAddresses(Set<Address> addresses) {
+	public void setAddresses(Collection<Address> addresses) {
 		this.addresses = addresses;
 	}
 	public java.util.Date getJoinDate() {
