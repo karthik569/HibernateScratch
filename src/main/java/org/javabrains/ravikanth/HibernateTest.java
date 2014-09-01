@@ -9,50 +9,27 @@ public class HibernateTest {
 
 	public static void main(String [] args){
 		
+		//build the model objects
+		UserDetails uD=new UserDetails();
+		uD.setUserName("Ravikanth");
 		
-		//Build session factory
+		//Build session factory and open a session
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
-		//Open a session
 		Session session=sf.openSession();
-		
-		//begin the transaction
 		session.getTransaction().begin();
 		
-		// build the model objects
-		for(int i=1;i<=10;i++){
-			UserDetails ud=new UserDetails();
-			ud.setUserName("User "+i);
-			session.save(ud);
-		}
+		session.save(uD);
+		uD.setUserName("Updated User Name.");
 		
 		session.getTransaction().commit();
 		session.close();
 		
-		
-		//open a new session
+		//retrieve the object and display the result
 		session=sf.openSession();
-		session.getTransaction().begin();
+		uD=(UserDetails)session.get(UserDetails.class, 1);
+		System.out.println("Name : "+uD.getUserName());
 		
-		//perform the update operation
-		UserDetails ud=(UserDetails)session.get(UserDetails.class, 5);
-		ud.setUserName("Updated User");
-		session.update(ud);
-		
-		//peform the deletion operation
-		ud=(UserDetails)session.get(UserDetails.class, 10);
-		session.delete(ud);
-		
-		session.getTransaction().commit();
 		session.close();
-		
-		//Verify the above operations
-		session=sf.openSession();
-		session.getTransaction().begin();
-		
-		ud=(UserDetails)session.get(UserDetails.class, 5);
-		System.out.println("update name of the User : "+ud.getUserName());
-		
-		session.clear();
 		sf.close();
 	}
 }
