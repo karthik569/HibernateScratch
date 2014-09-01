@@ -3,6 +3,7 @@ package org.javabrains.ravikanth.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name="USER_DETAILS")
@@ -35,7 +38,7 @@ public class UserDetails {
 	private java.util.Date joinDate;
 	
 	// One-to-many mapping
-	@ManyToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private Collection<Vehicle> vehicles=new ArrayList<Vehicle>();
 
 	public UserDetails(){
