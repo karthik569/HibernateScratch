@@ -29,6 +29,8 @@
    <!-- List of XML mapping files -->
    <mapping class="org.javabrains.ravikanth.dto.UserDetails"/>
    <mapping class="org.javabrains.ravikanth.dto.Vehicle"/>
+   <mapping class="org.javabrains.ravikanth.dto.FourWheeler"/>
+   <mapping class="org.javabrains.ravikanth.dto.TwoWheeler"/>
 
 </session-factory>
 </hibernate-configuration>
