@@ -1,5 +1,6 @@
 package org.javabrains.ravikanth;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.Session;
@@ -13,41 +14,48 @@ public class HibernateTest {
 
 	public static void main(String [] args){
 		
-		// Build Session factory from the Xml configuration file
+		
+		//build the model objects;
+		UserDetails userDetails=new UserDetails();
+		userDetails.setJoinDate(new Date());
+		userDetails.setUserName("Ravikanth");
+		Vehicle v1=new Vehicle();
+		v1.setVehicleName("Lamborgini");
+		Vehicle v2=new Vehicle();
+		v2.setVehicleName("Maserati");
+		
+		userDetails.getVehicles().add(v1);
+		userDetails.getVehicles().add(v2);
+		
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
 		
-		//Open a session
+		//open a new session
 		Session session=sf.openSession();
 		
 		//begin the transaction
 		session.getTransaction().begin();
 		
-		//Build the modle object
-		UserDetails userDetails=new UserDetails();
-		
-		userDetails.setJoinDate(new Date());
-		userDetails.setUserName("Ravikanth");
-		Vehicle vehicle=new Vehicle();
-		vehicle.setVehicleName("Lamborgini");
-		userDetails.setVehicle(vehicle);
-		
-		//save the objects
 		session.save(userDetails);
-		session.save(vehicle);
+		session.save(v1);
+		session.save(v2);
 		
-		// commit and and close the session
+		// commit the trasaction
 		session.getTransaction().commit();
+		//close the session
 		session.close();
 		
-		//open the session again and retreive the objects
+		//open the session again and retrieve the objects
 		session=sf.openSession();
 		UserDetails uD=(UserDetails)session.get(UserDetails.class, 1);
-		Vehicle v=uD.getVehicle();
+		Collection<Vehicle> vs=uD.getVehicles();
 		
-		System.out.println("User Name : "+uD.getUserName());
-		System.out.println("Vehicle Name : "+uD.getVehicle().getVehicleName());
+		System.out.println("User Name "+uD.getUserName());
+		System.out.println("Number of vehicles : "+vs.size());
+		System.out.println("First Vehicle Name : "+vs.size());
 		
+		//release the resources
 		session.close();
 		sf.close();
+		
 	}
 }
