@@ -3,45 +3,56 @@ package org.javabrains.ravikanth;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.javabrains.ravikanth.dto.FourWheeler;
-import org.javabrains.ravikanth.dto.TwoWheeler;
-import org.javabrains.ravikanth.dto.Vehicle;
+import org.javabrains.ravikanth.dto.UserDetails;
 
 public class HibernateTest {
 
 	public static void main(String [] args){
 		
 		
-		//build the model objects
-		Vehicle v=new Vehicle();
-		v.setVehicleName("Vehicle");
-		
-		TwoWheeler tv=new TwoWheeler();
-		tv.setSteeringHandle("Monkey Handle");
-		tv.setVehicleName("Ducati");
-		
-		FourWheeler fw=new FourWheeler();
-		fw.setSteeringWheel("Five Spoke Wheel");
-		fw.setVehicleName("Skoda");
-		
-		//build the sessionfactory from the configuratino file
+		//Build session factory
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
-		
-		//open a session
+		//Open a session
 		Session session=sf.openSession();
+		
 		//begin the transaction
 		session.getTransaction().begin();
 		
-		//save the objects
-		session.save(v);
-		session.save(tv);
-		session.save(fw);
+		// build the model objects
+		for(int i=1;i<=10;i++){
+			UserDetails ud=new UserDetails();
+			ud.setUserName("User "+i);
+			session.save(ud);
+		}
 		
-		//commit the transaction
 		session.getTransaction().commit();
-		//close the session.
-		
 		session.close();
+		
+		
+		//open a new session
+		session=sf.openSession();
+		session.getTransaction().begin();
+		
+		//perform the update operation
+		UserDetails ud=(UserDetails)session.get(UserDetails.class, 5);
+		ud.setUserName("Updated User");
+		session.update(ud);
+		
+		//peform the deletion operation
+		ud=(UserDetails)session.get(UserDetails.class, 10);
+		session.delete(ud);
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		//Verify the above operations
+		session=sf.openSession();
+		session.getTransaction().begin();
+		
+		ud=(UserDetails)session.get(UserDetails.class, 5);
+		System.out.println("update name of the User : "+ud.getUserName());
+		
+		session.clear();
 		sf.close();
 	}
 }

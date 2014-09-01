@@ -22,20 +22,8 @@ public class UserDetails {
 	@Column(name="USER_NAME")
 	private String userName;
 	
-	//Joining date
-	@Temporal(TemporalType.DATE)
-	private java.util.Date joinDate;
-	
 	public UserDetails(){
 		
-	}
-	
-	public java.util.Date getJoinDate() {
-		return joinDate;
-	}
-	
-	public void setJoinDate(java.util.Date date) {
-		this.joinDate = date;
 	}
 	
 	public int getUserId() {
