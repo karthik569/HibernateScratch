@@ -16,12 +16,14 @@ public class HibernateTest {
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		Query query=session.createQuery("from UserDetails where userId > 5");
-		List users=query.list();
+		Query query=session.createQuery("select userName from UserDetails where userId > 5");
+		List<String> users=query.list();
 		session.getTransaction().commit();
 		session.close();
 		sf.close();
 			
 		System.out.println("Number of users in the table : "+users.size());
+		
+		for(String name : users) System.out.println(" Name  :"+name);
 	}
 }
