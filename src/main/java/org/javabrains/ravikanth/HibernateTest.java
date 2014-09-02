@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.javabrains.ravikanth.dto.UserDetails;
 
 public class HibernateTest {
 
@@ -16,14 +17,18 @@ public class HibernateTest {
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		Query query=session.createQuery("select userName from UserDetails where userId > 5");
-		List<String> users=query.list();
+		Query query=session.createQuery("from UserDetails where userName = :userName and userId > :userId");
+		String name="User 7";
+		int id=5;
+		query.setInteger("userId", id);
+		query.setString("userName", name);
+		List<UserDetails> users=(List<UserDetails>)query.list();
 		session.getTransaction().commit();
 		session.close();
 		sf.close();
 			
 		System.out.println("Number of users in the table : "+users.size());
 		
-		for(String name : users) System.out.println(" Name  :"+name);
+		for(UserDetails user : users) System.out.println(" Name  : "+user.getUserName());
 	}
 }
