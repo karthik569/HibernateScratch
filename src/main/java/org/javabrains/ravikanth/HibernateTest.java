@@ -17,11 +17,8 @@ public class HibernateTest {
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		Query query=session.createQuery("from UserDetails where userName = :userName and userId > :userId");
-		String name="User 7";
-		int id=5;
-		query.setInteger("userId", id);
-		query.setString("userName", name);
+		Query query=session.getNamedQuery("UserDetails.byName");
+		query.setString(0, "User 7");
 		List<UserDetails> users=(List<UserDetails>)query.list();
 		session.getTransaction().commit();
 		session.close();
