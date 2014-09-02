@@ -8,28 +8,38 @@ import org.javabrains.ravikanth.dto.UserDetails;
 public class HibernateTest {
 
 	public static void main(String [] args){
-		
-		//build the model objects
-		UserDetails uD=new UserDetails();
-		uD.setUserName("Ravikanth");
-		
+
 		//Build session factory and open a session
 		SessionFactory sf=new Configuration().configure().buildSessionFactory();
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		session.save(uD);
-		uD.setUserName("Updated User Name.");
+		UserDetails uD=(UserDetails) session.get(UserDetails.class, 1);
 		
 		session.getTransaction().commit();
 		session.close();
 		
-		//retrieve the object and display the result
-		session=sf.openSession();
-		uD=(UserDetails)session.get(UserDetails.class, 1);
-		System.out.println("Name : "+uD.getUserName());
+		//make changes to the detached object
+		uD.setUserName("Ravikanth Updated.");
 		
+		//retrieve the object and update the record
+		session=sf.openSession();
+		session.getTransaction().begin();
+		
+		session.update(uD);
+		
+		session.getTransaction().commit();
 		session.close();
-		sf.close();
+		
+		//retrieve again to see if the update happened
+		session=sf.openSession();
+		session.getTransaction().begin();
+		
+		uD=(UserDetails)session.get(UserDetails.class, 1);
+		
+		System.out.println("Name : "+uD.getUserName());
+		session.close();
+		
+		
 	}
 }
