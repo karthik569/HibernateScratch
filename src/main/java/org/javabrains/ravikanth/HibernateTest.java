@@ -21,9 +21,11 @@ public class HibernateTest {
 		
 		//create a criteria object and add restrictions
 		Criteria criteria=session.createCriteria(UserDetails.class);
-		criteria.add(Restrictions.eq("userName", "User 10"));
+//		criteria.add(Restrictions.eq("userName", "User 10"))
+//				 .add(Restrictions.gt("userId", 5));
+//		
 		
-		
+		criteria.add(Restrictions.or(Restrictions.between("userId", 1, 3), Restrictions.between("userId", 5, 10)));
 		List<UserDetails> users=(List<UserDetails>)criteria.list();
 		session.getTransaction().commit();
 		session.close();
