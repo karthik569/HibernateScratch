@@ -1,9 +1,11 @@
 package org.javabrains.ravikanth;
 
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.javabrains.ravikanth.dto.UserDetails;
 
 public class HibernateTest {
 
@@ -14,32 +16,12 @@ public class HibernateTest {
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		UserDetails uD=(UserDetails) session.get(UserDetails.class, 1);
-		
+		Query query=session.createQuery("from UserDetails where userId > 5");
+		List users=query.list();
 		session.getTransaction().commit();
 		session.close();
-		
-		//make changes to the detached object
-		uD.setUserName("Ravikanth Updated.");
-		
-		//retrieve the object and update the record
-		session=sf.openSession();
-		session.getTransaction().begin();
-		
-		session.update(uD);
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		//retrieve again to see if the update happened
-		session=sf.openSession();
-		session.getTransaction().begin();
-		
-		uD=(UserDetails)session.get(UserDetails.class, 1);
-		
-		System.out.println("Name : "+uD.getUserName());
-		session.close();
-		
-		
+		sf.close();
+			
+		System.out.println("Number of users in the table : "+users.size());
 	}
 }
