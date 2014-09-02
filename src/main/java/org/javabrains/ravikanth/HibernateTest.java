@@ -2,10 +2,12 @@ package org.javabrains.ravikanth;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.javabrains.ravikanth.dto.UserDetails;
 
 public class HibernateTest {
@@ -17,9 +19,12 @@ public class HibernateTest {
 		Session session=sf.openSession();
 		session.getTransaction().begin();
 		
-		Query query=session.getNamedQuery("UserDetails.byName");
-		query.setString(0, "User 7");
-		List<UserDetails> users=(List<UserDetails>)query.list();
+		//create a criteria object and add restrictions
+		Criteria criteria=session.createCriteria(UserDetails.class);
+		criteria.add(Restrictions.eq("userName", "User 10"));
+		
+		
+		List<UserDetails> users=(List<UserDetails>)criteria.list();
 		session.getTransaction().commit();
 		session.close();
 		sf.close();
