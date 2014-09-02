@@ -1,5 +1,6 @@
 package org.javabrains.ravikanth.dto;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="userdetails")
 @NamedQuery(name="UserDetails.byName" , query="from UserDetails where userName = ?")
 @Table(name="USER_DETAILS")
 public class UserDetails {
