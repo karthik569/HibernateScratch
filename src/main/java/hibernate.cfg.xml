@@ -16,7 +16,6 @@
       jdbc:mysql://localhost:3306/test
    </property>
    <property name="hibernate.connection.username">
-      ziontech
    </property>
    <property name="hibernate.connection.password">
    </property>
